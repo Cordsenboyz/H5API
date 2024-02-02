@@ -57,9 +57,9 @@ jobs:
 
     env:
       Solution_Name: H5API.sln                        # Replace with your solution name, i.e. MyWpfApp.sln.
-      Test_Project_Path: H5API\H5APITest\H5APITest.csproj                # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
-      Wap_Project_Directory: H5API\H5API    # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
-      Wap_Project_Path: H5API\H5API\H5API.csproj                   # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
+      Test_Project_Path: H5APITest/H5APITest.csproj               # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
+      Wap_Project_Directory: H5API   # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
+      Wap_Project_Path: H5API/H5API.csproj                  # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
 
     steps:
     - name: Checkout
