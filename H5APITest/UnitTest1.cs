@@ -7,6 +7,10 @@ namespace H5APITest
         {
             Assert.True(1 == 1);
         }
-
+        [Fact]
+        public void TestAssertFalse()
+        {
+            Assert.False(1 == 1);
+        }
     }
 }
