@@ -9,5 +9,6 @@ namespace H5API.Models
         public float Price { get; set; }
         public DateTime ProductionDate { get; set; }
         public DateTime ExpiryDate { get; set; }
+        public List<Order> Orders { get; set; }
     }
 }

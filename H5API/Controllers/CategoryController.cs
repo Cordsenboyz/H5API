@@ -25,7 +25,9 @@ namespace H5API.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Get(Guid Id)
         {
-            return Ok();
+            Category category = await _unitOfWork.Categories.GetWithRelationsAsync(Id);
+
+            return Ok(category);
         }
 
         [HttpGet]
@@ -37,6 +39,7 @@ namespace H5API.Controllers
 
             return Ok(categories);
         }
+
 
         [HttpPost]
         [Route("[action]")]

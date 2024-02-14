@@ -1,82 +1,75 @@
 ﻿using H5API.Data;
 using H5API.Dto.Create;
-using H5API.Dto.Get;
-using H5API.Dto.Update;
 using H5API.Models;
+using H5API.Services;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
+using System.Security.Claims;
 
 namespace H5API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StoreController : ControllerBase
+    public class GoodsController : ControllerBase
     {
         private readonly UnitOfWork _unitOfWork;
+        private readonly GoodsService _goodsService;
 
-        public StoreController(UnitOfWork unitOfWork)
+        public GoodsController(UnitOfWork unitOfWork, GoodsService goodsService)
         {
             _unitOfWork = unitOfWork;
+            _goodsService = goodsService;
         }
-
 
         [HttpGet]
         [Route("[action]")]
         public async Task<IActionResult> Get(Guid Id)
         {
-            Store? store = await _unitOfWork.Stores.GetWithAllRelations(Id);
+            Goods good = await _unitOfWork.Goods.GetAsync(Id);
 
-            return Ok(store.Adapt<GetStoreDTO>());
+            return Ok(good);
         }
 
+        [Authorize]
         [HttpGet]
         [Route("[action]")]
         public async Task<IActionResult> GetAll()
         {
-            IEnumerable<Store> stores = await _unitOfWork.Stores.GetAllAsync();
+            IEnumerable<Goods> goods = await _unitOfWork.Goods.GetAllAsync();
 
-            return Ok(stores.Adapt<IEnumerable<GetStoreDTO>>());
+            return Ok(goods);
         }
 
         [Authorize]
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Create(CreateStoreDTO storeDTO)
+        public async Task<IActionResult> Create(CreateGoodsDTO goodsDTO, Guid CategoryId)
         {
-            Store store = storeDTO.Adapt<Store>();
 
-            await _unitOfWork.Stores.AddAsync(store);
+            bool result = await _goodsService.CreateWithRelations(goodsDTO.Adapt<Goods>(), CategoryId);
+            if (!result) BadRequest();
+
             await _unitOfWork.SaveChangesAsync();
 
             return Created();
         }
 
-        [Authorize]
         [HttpPut]
         [Route("[action]")]
-        public async Task<IActionResult> Update(UpdateStoreDTO storeDTO)
+        public async Task<IActionResult> Update()
         {
-            Store store = await _unitOfWork.Stores.GetAsync(storeDTO.Id);
-
-            TypeAdapter.Adapt(storeDTO, store, typeof(UpdateStoreDTO), typeof(Store));
-
-            await _unitOfWork.Stores.UpdateAsync(store);
-            await _unitOfWork.SaveChangesAsync();
-
             return Ok();
         }
 
-        [Authorize]
         [HttpDelete]
         [Route("[action]")]
         public async Task<IActionResult> Delete(Guid Id)
         {
-            await _unitOfWork.Stores.DeleteAsync(Id);
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.Goods.DeleteAsync(Id);
 
             return NoContent();
         }

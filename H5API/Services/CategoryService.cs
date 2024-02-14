@@ -18,21 +18,8 @@ namespace H5API.Services
 
             Store updatedStore = await _unitOfWork.Stores.GetWithAllRelations(Id);
 
-            /*            IEnumerable<Category> categoriesInDb = await _unitOfWork.Categories.GetCategoriesInDB(store);
-
-                        foreach(Category category in categoriesInDb)
-                        {
-                            store.Categories.Remove(category);
-                            updatedStore.Categories.Add(category);
-                        }
-
-                        foreach(Category category in store.Categories)
-                        {
-                            updatedStore.Categories.Add(category);
-                        }*/
-
             Category categoryInDB = await _unitOfWork.Categories.GetByObject(category);
-            if(categoryInDB == null) 
+            if(categoryInDB is not null) 
             { 
                 updatedStore.Categories.Add(categoryInDB);
             }

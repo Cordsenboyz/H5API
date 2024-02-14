@@ -15,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddDbContext<H5DbContext>();
 builder.Services.AddTransient<CategoryService>();
+builder.Services.AddTransient<GoodsService>();
 builder.Services.AddScoped<UnitOfWork>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

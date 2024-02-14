@@ -11,6 +11,8 @@ namespace H5API.Repositories
 
         protected override DbSet<Category> Set => _context.Categories;
 
+        public async Task<Category>? GetWithRelationsAsync(Guid Id) => await Set.Include(category => category.Goods).FirstOrDefaultAsync(category => category.Id == Id);
+
         public async Task<IEnumerable<Category>> GetCategoriesWithinStore(Guid id) => await Set.Where(category => category.Store.Id == id).ToListAsync();
 
         public async Task<Category>? GetByObject(Category category) => await Set.FirstOrDefaultAsync(c => c.Name == category.Name);

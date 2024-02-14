@@ -11,6 +11,8 @@ namespace H5API.Data
         public readonly IConfiguration _configuration;
         public DbSet<Store> Stores { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Goods> Goods { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         public H5DbContext(DbContextOptions<H5DbContext> options, IConfiguration configuration)
             : base(options)

@@ -12,8 +12,7 @@ namespace H5API.Repositories
         protected override DbSet<Store> Set => _context.Stores;
 
         public async Task<Store>? GetWithAllRelations(Guid Id) => await Set
-            .Include(store => store.Categories
-                .Select(category => category.Goods))
+            .Include(store => store.Categories).ThenInclude(x => x.Goods)
             .FirstOrDefaultAsync(store => store.Id == Id);
 
         public async Task<IEnumerable<Store>> GetAllWithAllRelations() => await Set
