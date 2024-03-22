@@ -37,8 +37,8 @@ namespace H5API.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Get()
         {
-            var email = User.Claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault()?.Value;
-            var user = await _userManager.FindByEmailAsync(email);
+            string? email = User.Claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault()?.Value;
+            User? user = await _userManager.FindByEmailAsync(email);
 
             return Ok(user);
         }
